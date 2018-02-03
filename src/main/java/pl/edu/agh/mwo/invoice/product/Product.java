@@ -14,6 +14,9 @@ public abstract class Product {
 			throw new IllegalArgumentException();
 		}
 		this.name = name;
+		if(price == null || price.compareTo(BigDecimal.ZERO) < 0) {
+			throw new IllegalArgumentException();
+		}
 		this.price = price;
 		this.taxPercent = tax;
 	}
