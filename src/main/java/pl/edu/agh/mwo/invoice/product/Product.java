@@ -16,7 +16,7 @@ public abstract class Product {
 	}
 
 	public String getName() {
-		return null;
+		return this.name;
 	}
 
 	public BigDecimal getPrice() {
