@@ -141,5 +141,55 @@ public class InvoiceTest {
 		int number1 = new Invoice().getNumber();
 		Assert.assertThat(number1, Matchers.greaterThan(0));
 	}
+	
+	@Test
+	public void testPrintedInvoiceHasNumber() {
+		String printed = invoice.printInvoice();
+		String number = String.valueOf(invoice.getNumber());
+		Assert.assertThat(printed, Matchers.containsString(number));
+	}
+	
+	@Test
+	public void testPrintedInvoiceHasProductInNewLine() {
+		invoice.addProduct(new OtherProduct("Oscypek", new BigDecimal("2.50")));
+		String printed = invoice.printInvoice();
+		Assert.assertThat(printed, Matchers.containsString("\nOscypek"));
+	}
+	
+	@Test
+	public void testPrintedInvoiceHasPrice() {
+		Invoice inv3 = new Invoice();
+		inv3.addProduct(new OtherProduct("Kawa", new BigDecimal("7.50")));
+		String printed = inv3.printInvoice();
+		Assert.assertThat(printed, Matchers.containsString("7.50"));
+	}
+	
+	@Test
+	public void testPrintedInvoiceHasType() {
+		Invoice inv4 = new Invoice();
+		inv4.addProduct(new DairyProduct("Jogurt", new BigDecimal("17.50")));
+		String printed = inv4.printInvoice();
+		Assert.assertThat(printed, Matchers.containsString("DairyProduct"));
+	}
+	
+	@Test
+	public void testPrintedInvoiceHasQuantity() {
+		Invoice inv6 = new Invoice();
+		inv6.addProduct(new DairyProduct("Jogurt", new BigDecimal("19.50")), 3);
+		String printed = inv6.printInvoice();
+		Assert.assertThat(printed, Matchers.containsString("Jogurt, ilosc: 3"));
+	}
+	
+	@Test
+	public void testPrintedInvoiceHasSummary() {
+		Invoice inv5 = new Invoice();
+		inv5.addProduct(new DairyProduct("Jogurt", new BigDecimal("17.50")));
+		inv5.addProduct(new OtherProduct("Kawa", new BigDecimal("7.50")));
+		inv5.addProduct(new OtherProduct("Oscypek", new BigDecimal("2.50")));
+		String printed = inv5.printInvoice();
+		Assert.assertThat(printed, Matchers.containsString("Liczba pozycji: 3"));
+	}
+	
+	
 
 }
